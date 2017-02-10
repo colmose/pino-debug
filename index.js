@@ -45,6 +45,7 @@ function override (script) {
       require = (function (req) {
         return Object.setPrototypeOf(function pinoDebugWrappedRequire(s) {
           if (s === './debug' && __dirname.slice(-18) === 'node_modules/debug') {
+             console.log(s, __dirname.slice(-18));
             var dbg = req('${require.resolve('./debug')}')
             var real = req(s)
             Object.assign(dbg, real)
@@ -52,6 +53,7 @@ function override (script) {
               Object.defineProperty(real, 'save', {value: dbg.save})
               return real.save
             }, configurable: true})
+            console.log(dbg);
             return dbg
           }
           return req(s)
